@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v4
+
+    - name: Build User Service
+      run: docker build -t user-service:v1.0 ./user-service
+
+    - name: Build Book Service
+      run: docker build -t book-service:v1.0 ./book-service
+
+    - name: Build Gateway
+      run: docker build -t api-gateway:v1.0 ./api-gateway
+
+    - name: Validate Python
+      run: python --version

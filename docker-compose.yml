@@ -1,0 +1,29 @@
+services:
+
+  api-gateway:
+    build: ./api-gateway
+
+    environment:
+      USER_SERVICE_URL: http://user-service:5001
+      BOOK_SERVICE_URL: http://book-service:5002
+
+    depends_on:
+      - user-service
+      - book-service
+
+    networks:
+      - biblioteca-network
+
+  user-service:
+    build: ./user-service
+    networks:
+      - biblioteca-network
+
+  book-service:
+    build: ./book-service
+    networks:
+      - biblioteca-network
+
+networks:
+  biblioteca-network:
+    driver: bridge

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: book-service
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: book-service
+
+  template:
+    metadata:
+      labels:
+        app: book-service
+
+    spec:
+      containers:
+      - name: book-service
+        image: book-service:v1.1
+        imagePullPolicy: IfNotPresent
+
+        ports:
+        - containerPort: 5002
+
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5002
+          initialDelaySeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5002
+          initialDelaySeconds: 5
